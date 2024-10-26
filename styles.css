@@ -1,98 +1,149 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    font-size: 62.5%;
-    box-sizing: border-box;
-    background-color: #222;
-    font-family: 'Press Start 2P', sans-serif;
-    color: #eee;
-  }
+  font-size: 62.5%;
+  box-sizing: border-box;
+  background-image: linear-gradient(#b197fc, #6741d9);
+  font-family: 'Press Start 2P', sans-serif;
+  color: #eee;
+}
 
-.container{
-    width:80rem;
-    height:40rem;
-    margin: 30rem auto;
-    display: flex;
+.container {
+  width: 160rem;
+  height: 80rem;
+  margin: 30rem auto;
+  display: flex;
+  gap: 18rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 1s;
 }
-.player{
-    background-color: #ff206e;
-    width:50%;
-    border:5px solid #eee;
-    position: relative
+.winner {
+  background-color: #40c057;
 }
-.computer{
-    width:50%;
-    background-color: #277da1;
-    border:5px solid #eee;
-    position: relative
+.resetBtn {
+  width: 16rem;
+  height: 6rem;
+  border-radius: 2rem;
+  opacity: 0.5;
+  border: none;
+  background-color: #000000;
+  color: #fff;
+  font-size: 3rem;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  cursor: pointer;
+  transition: all 1s;
 }
-.scoreTag{
-    position:absolute;
-    top: 20%;
-    left:50%;
-    transform: translate(-50%,-50%);
+.resetBtn:hover {
+  opacity: 0.8;
+}
+.resetBtn:active {
+  top: 52%;
+}
 
+/* PLAYER UI */
+.player {
+  background-color: #ff206e;
+  width: 50%;
+  border-radius: 3rem;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
 }
-.scorePlayer{
-    position:absolute;
-    top:30%;
-    left:50%;
-    transform: translate(-50%,-50%);
+.scoreTag {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
 }
-.scoreComputer{
-    position:absolute;
-    top:30%;
-    left:50%;
-    transform: translate(-50%,-50%);
+.scorePlayer {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
 }
-.sentence{
-    position:absolute;
-    top:80%;
-    left:50%;
-    transform: translate(-50%,-80%);
+.playerImage {
+  width: 20rem;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  position: absolute;
+  display: none;
 }
-.btn{
-    width:3rem;
-    border-radius:0.2rem;
-    border: none;
-    aspect-ratio: 10/10;
-    position:absolute;
-    top:90%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    cursor: pointer;
-    
-
+.sentence {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+  font-size: 2rem;
 }
-.rock {
-    left:40%
+.btn {
+  width: 6rem;
+  border-radius: 2rem;
+  border: none;
+  aspect-ratio: 10/10;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
-.paper{
-    left:50%;
-
+.rock-btn {
+  left: 20%;
 }
-.scissors{
-    left:60%;
+.paper-btn {
+  left: 50%;
+}
+.scissors-btn {
+  left: 80%;
+}
+.svg {
+  width: 4rem;
+}
+.btn:active {
+  top: 90.5%;
 }
 
 /*
 //
-///////////////// COMPUTER UI
+///////////////// COMPUTER INTERFACE
 //
 // */
-.img-holder{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-
+.computer {
+  width: 50%;
+  background-color: #277da1;
+  border-radius: 3rem;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
 }
-.img-holder img {
-    width:10rem;
-    display:none;
+.scoreComputer {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+}
+
+.computerImage {
+  width: 20rem;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  position: absolute;
+  display: none;
 }
