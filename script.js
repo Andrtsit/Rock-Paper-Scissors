@@ -1,168 +1,186 @@
-`use strict`;
+"use strict";
 
-const app = function () {
-  // elements needed
-  const playerScore = document.getElementById(`player-score`);
-  const computerScore = document.getElementById(`computer-score`);
-
-  const playerContainer = document.querySelector(`.human-participant`);
-  const computerContainer = document.querySelector(`.computer-participant`);
-
-  const btnRock = document.getElementById(`rock`);
-  const btnScissors = document.getElementById(`scissors`);
-  const btnPaper = document.getElementById(`paper`);
-  const btnReset = document.querySelector(`.reset`);
-
-  const computerAnswer = document.getElementById(`computer-answer`);
-  const playerAnswer = document.getElementById(`player-answer`);
-
-  // declarations
-
-  let randomNumber;
-  let score1 = 0;
-  let score2 = 0;
-
-  // functions declarations
-
-  const disableAllBtns = function () {
-    btnRock.disabled = true;
-    btnScissors.disabled = true;
-    btnPaper.disabled = true;
-  };
-  const enableAllBtns = function () {
-    btnRock.disabled = false;
-    btnScissors.disabled = false;
-    btnPaper.disabled = false;
+(() => {
+  // Dedicated map for more generic HTML elements.
+  const HTMLElements = {
+    playerScore: document.getElementById("player-score"),
+    computerScore: document.getElementById("computer-score"),
+    playerContainer: document.querySelector(".human-participant"),
+    computerContainer: document.querySelector(".computer-participant"),
+    computerAnswerImg: document.getElementById("computer-answer"),
+    playerAnswerImg: document.getElementById("player-answer"),
+    resetButton: document.querySelector(".reset-btn"),
   };
 
-  let scenario1 = function () {
-    computerAnswer.src = `fist.svg`;
-    computerAnswer.classList.remove(`hidden`);
-    disableAllBtns();
+  // Dedicated map for player action buttons.
+  const HTMLPlayerButtons = {
+    rock: document.getElementById("rock"),
+    scissors: document.getElementById("scissors"),
+    paper: document.getElementById("paper"),
+  };
+
+  // Game scenarios.
+  const SCENARIO = {
+    ROCK: 1,
+    PAPER: 2,
+    SCISSORS: 3,
+  };
+
+  // From plain number to image.
+  const scenarioNumberToImageMap = {
+    [SCENARIO.ROCK]: "fist.svg",
+    [SCENARIO.PAPER]: "palm.svg",
+    [SCENARIO.SCISSORS]: "scissors.svg",
+  };
+
+  // Player scores.
+  let playerScore = 0;
+  let computerScore = 0;
+
+  // Utility functions.
+  const enableButtons = () => {
+    Object.values(HTMLPlayerButtons).forEach((btn) => (btn.disabled = false));
+  };
+
+  const disableButtons = () => {
+    Object.values(HTMLPlayerButtons).forEach((btn) => (btn.disabled = true));
+  };
+
+  const suspendGame = (duration = 1000) => {
+    disableButtons();
     setTimeout(() => {
-      enableAllBtns();
-      playerAnswer.classList.add(`hidden`);
-      computerAnswer.classList.add(`hidden`);
-    }, 1000);
+      enableButtons();
+      [HTMLElements.playerAnswerImg, HTMLElements.computerAnswerImg].forEach(
+        (el) => el.classList.add("hidden")
+      );
+    }, duration);
   };
-  let scenario2 = function () {
-    computerAnswer.src = `palm.svg`;
-    computerAnswer.classList.remove(`hidden`);
-    disableAllBtns();
-    setTimeout(() => {
-      enableAllBtns();
-      playerAnswer.classList.add(`hidden`);
-      computerAnswer.classList.add(`hidden`);
-    }, 1000);
+
+  const playerWins = () => {
+    playerScore++;
+    HTMLElements.playerScore.textContent = playerScore;
   };
-  let scenario3 = function () {
-    computerAnswer.src = `scissors.svg`;
-    computerAnswer.classList.remove(`hidden`);
-    disableAllBtns();
-    setTimeout(() => {
-      enableAllBtns();
-      playerAnswer.classList.add(`hidden`);
-      computerAnswer.classList.add(`hidden`);
-    }, 1000);
+
+  const computerWins = () => {
+    computerScore++;
+    HTMLElements.computerScore.textContent = computerScore;
+  };
+
+  const drawPlayerAnswerOnScreen = (playerScenarioNumber) => {
+    HTMLElements.playerAnswerImg.src =
+      scenarioNumberToImageMap[playerScenarioNumber];
+    HTMLElements.playerAnswerImg.classList.remove("hidden");
+  };
+
+  const drawComputerAnswerOnScreen = (computerScenarioNumber) => {
+    HTMLElements.computerAnswerImg.src =
+      scenarioNumberToImageMap[computerScenarioNumber];
+    HTMLElements.computerAnswerImg.classList.remove("hidden");
   };
 
   const checkScore = function () {
-    if (score1 >= 5) {
-      playerScore.textContent = ` you win`;
-      disableAllBtns();
-      playerContainer.classList.add(`winner`);
+    if (playerScore >= 5) {
+      HTMLElements.playerScore.textContent = "You win";
+      HTMLElements.playerContainer.classList.add("winner");
       setTimeout(() => {
-        enableAllBtns();
-        playerContainer.classList.remove(`winner`);
-        playerScore.textContent = `0`;
-        computerScore.textContent = `0`;
-        computerAnswer.classList.add(`hidden`);
-        playerAnswer.classList.add(`hidden`);
-        score1 = 0;
-        score2 = 0;
-      }, 2000);
-    } else if (score2 >= 5) {
-      computerScore.textContent = ` you win`;
-      disableAllBtns();
-      computerContainer.classList.add(`winner`);
+        onReset();
+      }, 1000);
+    }
+
+    if (computerScore >= 5) {
+      HTMLElements.computerScore.textContent = "You win";
+      HTMLElements.computerContainer.classList.add("winner");
       setTimeout(() => {
-        enableAllBtns();
-        computerContainer.classList.remove(`winner`);
-        playerScore.textContent = `0`;
-        computerScore.textContent = `0`;
-        computerAnswer.classList.add(`hidden`);
-        playerAnswer.classList.add(`hidden`);
-        score1 = 0;
-        score2 = 0;
-      }, 2000);
+        onReset();
+      }, 1000);
     }
   };
-  // EVENT LISTENERS
-  btnRock.addEventListener(`click`, function () {
-    playerAnswer.src = `fist.svg`;
-    playerAnswer.classList.remove(`hidden`);
-    randomNumber = Math.trunc(Math.random() * 3 + 1);
-    if (randomNumber === 1) {
-      scenario1();
-    } else if (randomNumber === 2) {
-      scenario2();
-      score2++;
-      computerScore.textContent = score2;
-      checkScore();
-    } else {
-      scenario3();
-      score1++;
-      playerScore.textContent = score1;
-      checkScore();
+
+  const onReset = () => {
+    enableButtons();
+    playerScore = 0;
+    computerScore = 0;
+
+    HTMLElements.playerScore.textContent = 0;
+    HTMLElements.computerScore.textContent = 0;
+    HTMLElements.computerAnswerImg.classList.add("hidden");
+    HTMLElements.playerAnswerImg.classList.add("hidden");
+    HTMLElements.computerContainer.classList.remove("winner");
+    HTMLElements.playerContainer.classList.remove("winner");
+  };
+
+  // Scissors game logic.
+  const onPlayerScissors = () => {
+    drawPlayerAnswerOnScreen(SCENARIO.SCISSORS);
+
+    const computerAnswer = Math.trunc(Math.random() * 3 + 1);
+    drawComputerAnswerOnScreen(computerAnswer);
+
+    // Rock beats scissors.
+    if (computerAnswer === SCENARIO.ROCK) {
+      computerWins();
     }
+
+    // Scissors beats paper.
+    if (computerAnswer === SCENARIO.PAPER) {
+      playerWins();
+    }
+  };
+
+  // Paper game logic.
+  const onPlayerPaper = () => {
+    drawPlayerAnswerOnScreen(SCENARIO.PAPER);
+
+    const computerAnswer = Math.trunc(Math.random() * 3 + 1);
+    drawComputerAnswerOnScreen(computerAnswer);
+
+    // Rock beats paper.
+    if (computerAnswer === SCENARIO.ROCK) {
+      playerWins();
+    }
+
+    // Paper beats scissors.
+    if (computerAnswer === SCENARIO.SCISSORS) {
+      computerWins();
+    }
+  };
+
+  // Rock game logic.
+  const onPlayerRock = () => {
+    drawPlayerAnswerOnScreen(SCENARIO.ROCK);
+
+    const computerAnswer = Math.trunc(Math.random() * 3 + 1);
+    drawComputerAnswerOnScreen(computerAnswer);
+
+    // Paper beats rock.
+    if (computerAnswer === SCENARIO.PAPER) {
+      computerWins();
+    }
+
+    // Rock beats scissors.
+    if (computerAnswer === SCENARIO.SCISSORS) {
+      playerWins();
+    }
+  };
+
+  // Event listeners.
+  HTMLPlayerButtons.scissors.addEventListener("click", () => {
+    suspendGame();
+    onPlayerScissors();
+    checkScore();
   });
 
-  btnScissors.addEventListener(`click`, function () {
-    playerAnswer.src = `scissors.svg`;
-    playerAnswer.classList.remove(`hidden`);
-    randomNumber = Math.trunc(Math.random() * 3 + 1);
-    if (randomNumber === 1) {
-      scenario1();
-      score2++;
-      computerScore.textContent = score2;
-      checkScore();
-    } else if (randomNumber === 2) {
-      scenario2();
-      score1++;
-      playerScore.textContent = score1;
-      checkScore();
-    } else {
-      scenario3();
-    }
-  });
-  btnPaper.addEventListener(`click`, function () {
-    playerAnswer.src = `palm.svg`;
-    playerAnswer.classList.remove(`hidden`);
-    randomNumber = Math.trunc(Math.random() * 3 + 1);
-    if (randomNumber === 1) {
-      scenario1();
-      score1++;
-      playerScore.textContent = score1;
-      checkScore();
-    } else if (randomNumber === 2) {
-      scenario2();
-    } else {
-      scenario3();
-      score2++;
-      computerScore.textContent = score2;
-      checkScore();
-    }
-  });
-  btnReset.addEventListener(`click`, function () {
-    playerScore.textContent = 0;
-    computerScore.textContent = 0;
-    score1 = 0;
-    score2 = 0;
-    computerAnswer.classList.add(`hidden`);
-    playerAnswer.classList.add(`hidden`);
+  HTMLPlayerButtons.paper.addEventListener("click", () => {
+    suspendGame();
+    onPlayerPaper();
+    checkScore();
   });
 
-  // GAME LOGIC
-};
+  HTMLPlayerButtons.rock.addEventListener("click", () => {
+    suspendGame();
+    onPlayerRock();
+    checkScore();
+  });
 
-app();
+  HTMLElements.resetButton.addEventListener("click", onReset);
+})();
