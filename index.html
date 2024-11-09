@@ -8,34 +8,60 @@
     <title>Rock Paper Scissor</title>
   </head>
   <body>
-    <div class="container">
-      <button class="reset">RESET</button>
-      <div class="player">
-        <p class="scoreTag">SCORE</p>
-        <p class="scorePlayer">0</p>
-        <p class="sentence">Press a button !</p>
-        <button class="btn rock">
-          <img class="btnImg" src="fist.svg" alt="rockbtn" />
-        </button>
-        <button class="btn paper">
-          <img class="btnImg" src="palm.svg" alt="paperbtn" />
-        </button>
-        <button class="btn scissors">
-          <img class="btnImg" src="scissors.svg" alt="scissorsbtn" />
-        </button>
-        <div class="img-holder">
-          <img src="" alt="PlayerAnswer" class="playerAnswer hidden" />
-        </div>
+    <main>
+      <button class="reset-btn">RESET</button>
+      <div class="participant-card human-participant">
+        <section class="score-tab">
+          <h2>SCORE</h3>
+          <p id="player-score">0</p>
+        </section>
+
+        <figure>
+          <img src="" alt="Image representing the player's answer" id="player-answer" class=" hidden" />
+        </figure>
+        
+        <section class="player-actions">
+          <h3>Press a button</h3>
+          <ul>
+            <li>
+              <button id="rock">
+                <img
+                  src="fist.svg"
+                  alt="Close fist image representing rock"
+                />
+              </button>
+            </li>
+            <li>
+              <button id="paper">
+                <img
+                  src="palm.svg"
+                  alt="Open fist image representing paper"
+                />
+              </button>
+            </li>
+            <li>
+              <button id="scissors">
+                <img
+                  src="scissors.svg"
+                  alt="Scissors image representing scissors"
+                />
+              </button>
+            </li>
+          </ul>
+        </section>
       </div>
-      <div class="computer">
-        <div class="scoreContainer">
-          <p class="scoreTag">SCORE</p>
-          <p class="scoreComputer">0</p>
-          <div class="img-holder">
-            <img src="" alt="ComputerAnswer" class="answerComputer hidden" />
-          </div>
-        </div>
+
+      <div class="participant-card computer-participant">
+        <section class="score-tab">
+          <h2>SCORE</h3>
+          <p id="computer-score">0</p>
+        </section>
+
+        <figure>
+          <img src="" alt="Image representing the answer of the computer" id="computer-answer" class="hidden" />
+        </figure>
       </div>
-    </div>
+      </div>
+    </main>
   </body>
 </html>
