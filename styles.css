@@ -1,130 +1,141 @@
 @import url("https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 
 html {
   font-size: 62.5%;
   box-sizing: border-box;
-  background-color: #222;
+  background-color: var(--black);
   font-family: "Press Start 2P", sans-serif;
-  color: #eee;
+  color: var(--white);
 }
 
-.container {
-  width: 80rem;
-  height: 40rem;
-  margin: 30rem auto;
+/* Colors are best declared as var so to easily switch them up per requirements */
+:root {
+  --red: #ff206e;
+  --blue: #277da1;
+  --white: #eee;
+  --green: #12bd12;
+  --black: #222;
+}
+
+body {
   display: flex;
-  position: relative;
-}
-.player {
-  background-color: #ff206e;
-  width: 50%;
-  border: 5px solid #eee;
-  border-right: none;
-  position: relative;
-}
-.computer {
-  width: 50%;
-  background-color: #277da1;
-  border: 5px solid #eee;
-  position: relative;
-}
-.scoreTag {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-}
-.scorePlayer {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
-}
-.scoreComputer {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
-}
-.sentence {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -80%);
-  font-size: 1.2rem;
-}
-.btn {
-  width: 5rem;
-  border-radius: 0.2rem;
-  border: none;
-  aspect-ratio: 10/10;
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  font-size: 2rem;
-}
-.rock {
-  left: 20%;
-}
-.paper {
-  left: 50%;
-}
-.scissors {
-  left: 80%;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.btnImg {
-  width: 4rem;
-  height: 4rem;
+main {
+  width: 50%;
+  display: flex;
 }
 
-.img-holder {
+.reset-btn {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-family: inherit;
+  font-size: 2rem;
+  border-radius: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  opacity: 0.5;
+  z-index: 1;
+  border: none;
 }
-.img-holder img {
+
+.reset-btn:hover {
+  opacity: 0.8;
+}
+
+.participant-card {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-rows: 1fr 2fr 1fr;
+  width: 50%;
+  border: 5px solid var(--white);
+}
+
+.human-participant {
+  background-color: var(--red);
+}
+
+.computer-participant {
+  background-color: var(--blue);
+}
+
+.score-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  /* CSS Supports nesting of elements natively */
+  & h2 {
+    font-size: 3rem;
+  }
+
+  & p {
+    font-size: 2rem;
+  }
+}
+
+figure > img {
   width: 10rem;
   height: 10rem;
 }
 
+.player-actions {
+  /* CSS Supports nesting of elements natively */
+  & h3 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  & ul {
+    display: flex;
+    gap: 4rem;
+    padding: 2rem;
+  }
+
+  & button {
+    border-radius: 0.2rem;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+  }
+
+  & img {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
 .winner {
-  background-color: rgb(18, 189, 18);
+  background-color: var(--green);
 }
 
 .hidden {
   display: none;
 }
 
-.reset {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: inherit;
-  color: #111;
-  font-size: 2rem;
-  border-radius: 1rem;
-  padding: 1rem;
-  cursor: pointer;
-  opacity: 0.5;
-  z-index: 999;
-  text-align: center;
-  border: none;
+/* You can play around with making it more responsive */
+@media only screen and (max-width: 1000px) {
+  main {
+    width: 80%;
+  }
 }
 
-.reset:hover {
-  opacity: 0.8;
+@media only screen and (max-width: 650px) {
+  main {
+    width: 100%;
+  }
 }
